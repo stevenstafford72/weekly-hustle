@@ -15,10 +15,8 @@ app = FastAPI(title="Weekly Hustle")
 
 def get_conn():
     return psycopg.connect(DATABASE_URL, row_factory=dict_row)
-{"name": "Tech Job ", "is_hustle": True, "pay_type": "salary"}
-{"name": "Security ", "is_hustle": True, "pay_type": "hourly"}
-{"name": "Valet ", "is_hustle": True, "pay_type": "hourly"}
-{"name": "Uber ", "is_hustle": True, "pay_type": "per_gig"}
+
+
 class JobCreate(BaseModel):
     name: str
     is_hustle: bool = True
@@ -52,6 +50,7 @@ def create_job(job: JobCreate):
             """,
             (job.name, job.is_hustle, job.pay_type),
         ).fetchone()
+
     return row
 
 
