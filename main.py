@@ -101,3 +101,36 @@ def create_shift(shift: ShiftCreate):
         ).fetchone()
     return row
 
+@app.get("/weekly-shifts")
+def list_weekly_shifts(start: date, end: date):
+    with get_conn() as conn:
+        rows = conn.execute(
+            """
+            SELECT s.id,
+                   j.name AS job_name,
+                   s.shift_date,
+                   s.start_time,
+                   s.end_time,
+                   s.planned_minutes,
+                   ROUND(COALESCE(s.pay_amount, j.hourly_rate * s.planned_minutes / 60), 2) AS pay
+            FROM shifts s
+            JOIN jobs j ON j.id = s.job_id
+            WHERE s.shift_date BETWEEN %s AND %s
+            ORDER BY s.shift_date, s.start_time
+            """,
+            (start, end),
+        ).fetchall()
+    return rows
+
+
+@app.get("/shifts", response_model=list[Shift])
+def list_shifts():
+    with get_conn() as conn:
+        rows = conn.execute(
+            """
+            SELECT * from shifts;
+            """,
+        ).fetchall()
+    return rows
+
+#   { id: 5,  job_name: "Tech Job", shift_date: "2026-10-02", start_time: "08:00", end_time: "16:00", planned_minutes: 480, pay: 175.0 },
