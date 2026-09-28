@@ -1,6 +1,7 @@
 from datetime import date, time
 import os
 from typing import Literal
+from fastapi.middleware.cors import CORSMiddleware
 
 import psycopg
 from psycopg.rows import dict_row
@@ -13,6 +14,14 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 app = FastAPI(title="Weekly Hustle")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_conn():
