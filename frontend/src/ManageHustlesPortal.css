@@ -1,0 +1,343 @@
+/* Builds on AddShiftPortal.css (tokens + inputs + buttons live there). */
+
+.shift-modal.hm-modal {
+  width: 400px;
+}
+
+.hm-title-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ---------- list view ---------- */
+
+.hm-list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hm-group-title {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.hm-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.hm-list li + li {
+  border-top: 1px solid var(--border);
+}
+
+.hm-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+
+  border: none;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hm-row:hover {
+  background: #252525;
+}
+
+.hm-row:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.hm-dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dot);
+}
+
+.hm-row-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.hm-row-name {
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hm-row-meta {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.hm-row-chevron {
+  color: var(--faint);
+  font-size: 18px;
+}
+
+.hm-add-btn {
+  height: 38px;
+  border: 1px dashed var(--border-hover);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hm-add-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.hm-add-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.hm-empty {
+  padding: 18px 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.hm-empty p {
+  margin: 0;
+}
+
+.hm-empty-title {
+  margin-bottom: 4px !important;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ---------- form bits ---------- */
+
+.hm-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hm-swatch {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background: var(--swatch);
+  cursor: pointer;
+}
+
+.hm-swatch.is-active {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
+}
+
+.hm-swatch:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+.hm-segmented {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface);
+}
+
+.hm-segment {
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.hm-segment:hover {
+  color: var(--text);
+}
+
+.hm-segment.is-active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.hm-segment:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-soft), inset 0 0 0 1px var(--accent);
+}
+
+.hm-hint {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.hm-pay-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.hm-money {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+  box-sizing: border-box;
+  padding: 0 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.hm-money:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.hm-money input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13.5px;
+  outline: none;
+}
+
+.hm-money-affix {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hm-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text);
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.hm-check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.hm-optional {
+  color: var(--faint);
+  font-weight: 500;
+}
+
+.shift-input.hm-notes {
+  height: auto;
+  min-height: 56px;
+  padding: 8px 10px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+/* ---------- delete ---------- */
+
+.hm-text-danger {
+  margin-right: auto;
+  padding: 0 4px;
+  border: none;
+  background: transparent;
+  color: var(--danger);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hm-text-danger:hover {
+  text-decoration: underline;
+}
+
+.hm-confirm {
+  padding: 12px;
+  border: 1px solid rgba(229, 72, 77, 0.35);
+  border-radius: 10px;
+  background: var(--danger-soft);
+}
+
+.hm-confirm p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.hm-delete-btn {
+  flex: 1;
+  height: 38px;
+  border: none;
+  border-radius: 9px;
+  background: #e5484d;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hm-delete-btn:hover {
+  background: #cf3a3f;
+}
+
+.hm-text-danger:disabled,
+.hm-delete-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.hm-text-danger:focus-visible,
+.hm-delete-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.35);
+}

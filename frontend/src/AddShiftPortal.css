@@ -1,0 +1,424 @@
+/* ---------- overlay + shell ---------- */
+
+.shift-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.shift-modal {
+  --bg: #141414;
+  --surface: #1e1e1e;
+  --border: #2e2e2e;
+  --border-hover: #454545;
+  --text: #f2f2f2;
+  --muted: #9a9a9a;
+  --faint: #5c5c5c;
+  --accent: #4f7cf7;
+  --accent-hover: #3d68e0;
+  --accent-soft: rgba(79, 124, 247, 0.16);
+  --danger: #ff8a80;
+  --danger-soft: rgba(198, 40, 40, 0.15);
+
+  width: 360px;
+  max-width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 18px;
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark; /* dark native dropdowns + scrollbars */
+  font-size: 14px;
+}
+
+.shift-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.shift-modal-header h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.shift-close-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.shift-close-btn:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* ---------- fields ---------- */
+
+.shift-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shift-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.shift-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.shift-sample-tag {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.shift-input,
+.shift-date-btn {
+  width: 100%;
+  height: 36px;
+  box-sizing: border-box;
+  padding: 0 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+  font-size: 13.5px;
+}
+
+select.shift-input {
+  cursor: pointer;
+}
+
+.shift-input:hover,
+.shift-date-btn:hover {
+  border-color: var(--border-hover);
+}
+
+.shift-input:focus-visible,
+.shift-date-btn:focus-visible,
+.shift-chip:focus-visible,
+.shift-close-btn:focus-visible,
+.shift-cancel-btn:focus-visible,
+.shift-save-btn:focus-visible,
+.mini-cal-day:focus-visible,
+.mini-cal-nav:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ---------- date button + mini calendar ---------- */
+
+.shift-date-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.shift-date-btn svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.shift-date-text {
+  flex: 1;
+}
+
+.shift-caret {
+  color: var(--muted);
+  font-size: 11px;
+  transition: transform 0.15s ease;
+}
+
+.shift-date-btn[aria-expanded="true"] .shift-caret {
+  transform: rotate(180deg);
+}
+
+.mini-cal {
+  margin-top: 4px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  animation: mini-cal-in 0.12s ease-out;
+}
+
+@keyframes mini-cal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mini-cal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mini-cal-nav {
+  width: 26px;
+  height: 26px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mini-cal-nav:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+.mini-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.mini-cal-dow {
+  padding: 2px 0 4px;
+  color: var(--muted);
+  font-size: 10.5px;
+  text-align: center;
+}
+
+.mini-cal-day {
+  position: relative;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.mini-cal-day:hover {
+  background: var(--border);
+}
+
+.mini-cal-day.is-past {
+  color: var(--faint);
+}
+
+/* small dot marks today */
+.mini-cal-day.is-today::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.mini-cal-day.is-selected {
+  background: var(--accent);
+  color: #fff;
+}
+
+.mini-cal-day.is-selected::after {
+  background: #fff;
+}
+
+.mini-cal-foot {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* ---------- times + length ---------- */
+
+.shift-time-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.shift-length-pill {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 54px;
+  height: 36px;
+  box-sizing: border-box;
+  padding: 0 10px;
+
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.shift-length-pill.is-empty {
+  background: var(--surface);
+  color: var(--faint);
+}
+
+.shift-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: -4px;
+}
+
+.shift-chip {
+  height: 28px;
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.shift-chip:hover {
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+.shift-chip.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ---------- error + actions ---------- */
+
+.shift-form-error {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 12.5px;
+}
+
+.shift-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.shift-cancel-btn,
+.shift-save-btn {
+  height: 38px;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.shift-cancel-btn {
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+.shift-cancel-btn:hover {
+  background: var(--surface);
+}
+
+.shift-save-btn {
+  flex: 1;
+  border: 1px solid transparent;
+  background: var(--accent);
+  color: #fff;
+}
+
+.shift-save-btn:hover {
+  background: var(--accent-hover);
+}
+
+.shift-save-btn:disabled,
+.shift-cancel-btn:disabled,
+.shift-close-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---------- phones: slide up as a bottom sheet ---------- */
+
+@media (max-width: 420px) {
+  .shift-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .shift-modal {
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mini-cal {
+    animation: none;
+  }
+
+  .shift-caret {
+    transition: none;
+  }
+}

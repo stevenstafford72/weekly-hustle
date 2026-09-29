@@ -132,5 +132,3 @@ def list_shifts():
             """,
         ).fetchall()
     return rows
-
-#   { id: 5,  job_name: "Tech Job", shift_date: "2026-10-02", start_time: "08:00", end_time: "16:00", planned_minutes: 480, pay: 175.0 },
