@@ -1,47 +1,36 @@
 
-import { useState } from "react";
 import "./WeekBoard.css";
-import AddShiftPortal from "./AddShiftPortal";
 import HustleActions from "./HustleActions";
 
 const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-const PALETTE = [
-  { bg: "#eef3ff", accent: "#4f7cf7" },
-  { bg: "#f3efff", accent: "#8b6cf0" },
-  { bg: "#eaf7f0", accent: "#22a06b" },
-  { bg: "#fff4e8", accent: "#e8893a" },
-  { bg: "#ffffff", accent: "#e0628a" },
-];
-
-function colorFor(name = "") {
-  let hash = 0;
-
-  for (const ch of name) {
-    hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
-  }
-
-  return PALETTE[hash % PALETTE.length];
-}
-
+// Helper Function to find the Monday of the week for todays date unless another date is provided as an argument
 function getMonday(date) {
+  // Create a new Date object based on the provided date or today if nothing is provided
   const d = new Date(date);
+  // Calculate the number of days since the last Monday
   const daysSinceMonday = (d.getDay() + 6) % 7;
 
+  // Subtract the number of days since Monday to get the date of the most recent Monday
   d.setDate(d.getDate() - daysSinceMonday);
+  // Reset the time to the start of the day
   d.setHours(0, 0, 0, 0);
 
+  // Return the calculated Monday date
   return d;
 }
 
+// Helper Function to convert a Date object to a string in the format YYYY-MM-DD
 function toDateString(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
 
+  // Construct the date string in the format YYYY-MM-DD
   return `${y}-${m}-${day}`;
 }
 
+// Helper Function to format a time string (HH:MM) into a 12-hour format with am/pm
 function formatTime(t) {
   if (!t) return "";
 
@@ -54,17 +43,12 @@ function formatTime(t) {
     : `${hour12}${suffix}`;
 }
 
-function formatMinutes(mins = 0) {
-  const h = Math.floor(mins / 60);
-  const m = mins % 60;
-
-  return m ? `${h}h ${m}m` : `${h}h`;
-}
-
+// Helper Function to get today's date as a string in the format YYYY-MM-DD
 function getToday() {
   return toDateString(new Date());
 }
 
+// Helper Function to format a duration in minutes into a human-readable string (e.g., "2h 30m")
 export default function WeekBoard({
   shifts = [],
   jobs = [],
@@ -74,7 +58,6 @@ export default function WeekBoard({
   const monday = getMonday(weekOf);
   const todayStr = getToday();
 
-  const [showAddShift, setShowAddShift] = useState(false);
 
   const days = DAY_NAMES.map((name, i) => {
     const d = new Date(monday);
@@ -113,6 +96,9 @@ export default function WeekBoard({
     };
   });
 
+
+  
+
   return (
     <>
       <div className="board">
@@ -136,20 +122,14 @@ export default function WeekBoard({
 
             <div className="cards">
               {day.shifts.map((s) => {
-                const c = colorFor(s.job_name);
-
                 return (
                   <div
                     className="card"
                     key={s.id}
-                    style={{
-                      "--card-bg": c.bg,
-                      "--card-accent": c.accent,
-                    }}
                   >
                     <div className="card-job">
                       <span className="dot" />
-                      {s.job_name}
+                      {jobs.find((job) => job.id === s.job_id)?.name ?? "Unknown"}
                     </div>
 
                     <div className="card-time">
@@ -171,26 +151,11 @@ export default function WeekBoard({
               })}
             </div>
 
-            <div className="day-total">
-              <span>{formatMinutes(day.totalMinutes)}</span>
-              <span>${day.totalPay.toFixed(2)}</span>
-            </div>
+            
           </div>
         ))}
       </div>
-      <HustleActions show={showAddShift} onClose={() => setShowAddShift(false)} />
-
-      {/* Floating Add Hustle Button */}
-      <HustleActions show={showAddShift} onClose={() => setShowAddShift(false)} />
-
-      {/* Separate shift portal */}
-      {showAddShift && (
-        <AddShiftPortal
-          jobs={jobs}
-          onCreateShift={onCreateShift}
-          onClose={() => setShowAddShift(false)}
-        />
-      )}
+        <HustleActions jobs={jobs} onCreateShift={onCreateShift} />
     </>
   );
 }

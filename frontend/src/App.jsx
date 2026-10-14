@@ -1,28 +1,48 @@
 import WeekBoard from "./WeekBoard";
+import { useState, useEffect } from "react";
+import { getJobs, getShifts, createShift } from "./api";
 
-const sampleShifts = [
-  // Tech Job: Mon–Fri, 8am–4pm (8 hours)
-  { id: 1,  job_name: "Tech Job", shift_date: "2026-09-28", start_time: "08:00", end_time: "16:00", planned_minutes: 480, pay: 175.0 },
-  { id: 2,  job_name: "Tech Job", shift_date: "2026-09-29", start_time: "08:00", end_time: "16:00", planned_minutes: 480, pay: 175.0 },
-  { id: 3,  job_name: "Tech Job", shift_date: "2026-09-30", start_time: "08:00", end_time: "16:00", planned_minutes: 480, pay: 175.0 },
-  { id: 4,  job_name: "Tech Job", shift_date: "2026-10-01", start_time: "08:00", end_time: "16:00", planned_minutes: 480, pay: 175.0 },
-  { id: 5,  job_name: "Tech Job", shift_date: "2026-10-02", start_time: "08:00", end_time: "16:00", planned_minutes: 480, pay: 175.0 },
 
-  // Uber: Mon, Wed, Fri evenings
-  { id: 6,  job_name: "Uber", shift_date: "2026-09-28", start_time: "17:00", end_time: "19:15", planned_minutes: 135, pay: 48.5 },
-  { id: 7,  job_name: "Uber", shift_date: "2026-09-30", start_time: "17:30", end_time: "20:00", planned_minutes: 150, pay: 55.0 },
-  { id: 8,  job_name: "Uber", shift_date: "2026-10-02", start_time: "18:00", end_time: "21:00", planned_minutes: 180, pay: 68.0 },
 
-  // Valet: Sunday evening
-  { id: 9,  job_name: "Valet", shift_date: "2026-10-04", start_time: "18:00", end_time: "23:00", planned_minutes: 300, pay: 75.0 },
-];
+function toDateString(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  // Construct the date string in the format YYYY-MM-DD
+  return `${y}-${m}-${day}`;
+}
+
+function getWeekRange(date = new Date()) {
+  const monday = new Date(date);
+  monday.setDate(monday.getDate() - monday.getDay() + 1);
+  const sunday = new Date(monday);
+  sunday.setDate(sunday.getDate() + 6);
+  return { start: toDateString(monday), end: toDateString(sunday) };
+}
+
 
 function App() {
+  const [shifts, setShifts] = useState([]);
+  const [jobs, setJobs] = useState([]);
+
+  const { start, end } = getWeekRange();
+
+    useEffect(() => {
+      getJobs().then(setJobs);
+      getShifts(start, end).then(setShifts);
+    }, [start, end]);
+
+  async function handleCreateShift(shift) {
+    await createShift(shift);
+    const updated = await getShifts(start, end);
+    setShifts(updated);
+  }
+  
   return (
     <div style={{ padding: "16px", fontFamily: "sans-serif" }}>
       <h1 style={{ marginRight: "700px", marginBottom: "25px" }}>Weekly Hustle</h1>
-       <h2>September 28 - October 4, 2026</h2>
-      <WeekBoard shifts={sampleShifts} />
+       <h2>{start} - {end} </h2>
+      <WeekBoard shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} />
     </div>
   );
 }

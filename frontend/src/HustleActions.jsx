@@ -14,15 +14,15 @@ import { EXAMPLE_JOBS } from "./hustleJobs";
   runs on sample data in memory (resets on refresh).
 */
 
-export default function HustleActions() {
+export default function HustleActions({ jobs: realJobs = [], onCreateShift }) {
   const [jobs, setJobs] = useState(EXAMPLE_JOBS); // TODO: load from GET /jobs
   const [panel, setPanel] = useState(null); // "shift" | "hustles" | null
+  
 
   const close = () => setPanel(null);
 
   async function createShift(payload) {
-    // TODO: await api.post("/shifts", payload)
-    console.log("create shift", payload);
+    return onCreateShift(payload);    
   }
 
   async function createJob(data) {
@@ -44,6 +44,7 @@ export default function HustleActions() {
     setJobs((prev) => prev.filter((j) => j.id !== id));
   }
 
+
   return (
     <>
       <HustleFab
@@ -52,7 +53,7 @@ export default function HustleActions() {
       />
 
       {panel === "shift" && (
-        <AddShiftPortal jobs={jobs} onCreateShift={createShift} onClose={close} />
+        <AddShiftPortal jobs={realJobs} onCreateShift={createShift} onClose={close} />
       )}
 
       {panel === "hustles" && (

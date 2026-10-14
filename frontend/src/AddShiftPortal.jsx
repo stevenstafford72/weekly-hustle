@@ -194,7 +194,7 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
   const usingSampleJobs = jobs.length === 0;
 
   const hustleJobs = useMemo(
-    () => (usingSampleJobs ? EXAMPLE_JOBS : jobs).filter((job) => job.is_hustle),
+    () => (usingSampleJobs ? EXAMPLE_JOBS : jobs),
     [jobs, usingSampleJobs]
   );
 
