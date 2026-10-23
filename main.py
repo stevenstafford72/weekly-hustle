@@ -132,3 +132,12 @@ def list_shifts():
             """,
         ).fetchall()
     return rows
+
+@app.delete("/shifts/{shift_id}")
+def delete_shift(shift_id: int):
+    with get_conn() as conn: 
+        row = conn.execute(
+            "DELETE FROM shifts WHERE id = %s RETURNING id", 
+            (shift_id,),   
+        ).fetchone()
+        return row

@@ -1,6 +1,6 @@
 import WeekBoard from "./WeekBoard";
 import { useState, useEffect } from "react";
-import { getJobs, getShifts, createShift } from "./api";
+import { getJobs, getShifts, createShift, deleteShift } from "./api";
 
 
 
@@ -37,12 +37,17 @@ function App() {
     const updated = await getShifts(start, end);
     setShifts(updated);
   }
-  
+  async function handleDeleteShift(shift) {
+    await deleteShift(shift);
+    const updated = await getShifts(start, end);
+    setShifts(updated);
+  }
+
   return (
     <div style={{ padding: "16px", fontFamily: "sans-serif" }}>
       <h1 style={{ marginRight: "700px", marginBottom: "25px" }}>Weekly Hustle</h1>
        <h2>{start} - {end} </h2>
-      <WeekBoard shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} />
+      <WeekBoard shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} onDeleteShift={handleDeleteShift} />
     </div>
   );
 }

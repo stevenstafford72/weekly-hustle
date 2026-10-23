@@ -33,3 +33,13 @@ export async function createShift(shift) {
 
     return await response.json();
 }
+
+    export async function deleteShift(id) {
+        const response = await fetch(`${API_URL}/shifts/${id}`, {
+            method: 'DELETE'
+        }); 
+        if (!response.ok) {
+            throw new Error(`Request failed: ${response.status}`)
+        }
+        return await response.json();
+    }

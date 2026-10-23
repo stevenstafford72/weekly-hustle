@@ -2,6 +2,7 @@
 import "./WeekBoard.css";
 import HustleActions from "./HustleActions";
 
+
 const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 // Helper Function to find the Monday of the week for todays date unless another date is provided as an argument
@@ -48,12 +49,15 @@ function getToday() {
   return toDateString(new Date());
 }
 
+
+
 // Helper Function to format a duration in minutes into a human-readable string (e.g., "2h 30m")
 export default function WeekBoard({
   shifts = [],
   jobs = [],
   weekOf = new Date(),
   onCreateShift,
+  onDeleteShift,
 }) {
   const monday = getMonday(weekOf);
   const todayStr = getToday();
@@ -127,6 +131,9 @@ export default function WeekBoard({
                     className="card"
                     key={s.id}
                   >
+                    <button className="card-delete" onClick={() => onDeleteShift(s.id)}>
+                      x
+                    </button>
                     <div className="card-job">
                       <span className="dot" />
                       {jobs.find((job) => job.id === s.job_id)?.name ?? "Unknown"}

@@ -55,6 +55,23 @@
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+.card-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff4d4f;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
 .card:hover {
   transform: translateY(-1px);
   box-shadow: 0 3px 10px rgba(20, 30, 50, 0.08);
