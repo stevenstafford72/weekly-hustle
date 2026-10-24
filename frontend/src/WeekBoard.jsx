@@ -5,6 +5,7 @@ import HustleActions from "./HustleActions";
 
 const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+
 // Helper Function to find the Monday of the week for todays date unless another date is provided as an argument
 function getMonday(date) {
   // Create a new Date object based on the provided date or today if nothing is provided
@@ -26,9 +27,16 @@ function toDateString(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
-
   // Construct the date string in the format YYYY-MM-DD
   return `${y}-${m}-${day}`;
+
+function formatWeekRange(monday) {
+  const m = String(monday.getMonth() + 1).padStart(2, "0");
+
+  return `${m} ${monday.getDate()} – ${monday.getDate() + 6}`;
+}
+
+
 }
 
 // Helper Function to format a time string (HH:MM) into a 12-hour format with am/pm
@@ -61,8 +69,7 @@ export default function WeekBoard({
 }) {
   const monday = getMonday(weekOf);
   const todayStr = getToday();
-
-
+ 
   const days = DAY_NAMES.map((name, i) => {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
@@ -104,6 +111,8 @@ export default function WeekBoard({
   
 
   return (
+
+    
     <>
       <div className="board">
         {days.map((day) => (
