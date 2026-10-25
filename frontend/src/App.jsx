@@ -54,14 +54,14 @@ function App() {
 
   const { start, end } = weekRange;
   function weekStart() {
-    const newStart = new Date(start);
+    const newStart = new Date(start + "T00:00:00");
     newStart.setDate(newStart.getDate() - 7);
     const newEnd = new Date(newStart);
     newEnd.setDate(newEnd.getDate() + 6);
     setWeekRange({ start: toDateString(newStart), end: toDateString(newEnd) });
   }
   function weekEnd() {
-    const newStart = new Date(start);
+    const newStart = new Date(start + "T00:00:00");
     newStart.setDate(newStart.getDate() + 7);
     const newEnd = new Date(newStart);
     newEnd.setDate(newEnd.getDate() + 6);
