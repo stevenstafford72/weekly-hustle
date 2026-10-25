@@ -92,7 +92,7 @@ function App() {
        <h2>{formatWeekRange(start, end)}</h2>
         <button onClick={weekEnd}>→</button>
       </div>
-      <WeekBoard shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} onDeleteShift={handleDeleteShift} />
+      <WeekBoard weekOf={new Date(weekRange.start + "T00:00:00")} shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} onDeleteShift={handleDeleteShift} />
     </div>
   );
 }

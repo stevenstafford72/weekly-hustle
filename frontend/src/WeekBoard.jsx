@@ -22,6 +22,13 @@ function getMonday(date) {
   return d;
 }
 
+function toDateKey(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 // Helper Function to convert a Date object to a string in the format YYYY-MM-DD
 function toDateString(d) {
   const y = d.getFullYear();
@@ -108,6 +115,8 @@ export default function WeekBoard({
   });
 
 
+
+
   
 
   return (
@@ -115,18 +124,18 @@ export default function WeekBoard({
     
     <>
       <div className="board">
-        {days.map((day) => (
+        {days.map((weekOf) => (
           <div
             className={`column ${
-              day.dateStr === todayStr ? "today" : ""
+              weekOf.dateStr === todayStr ? "today" : ""
             }`}
-            key={day.dateStr}
+            key={weekOf.dateStr}
           >
             <div className="day-header">
-              <div className="day-name">{day.name}</div>
+              <div className="day-name">{weekOf.name}</div>
 
               <div className="day-date">
-                {day.date.toLocaleDateString("en-US", {
+                {weekOf.date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                 })}
@@ -134,7 +143,7 @@ export default function WeekBoard({
             </div>
 
             <div className="cards">
-              {day.shifts.map((s) => {
+              {weekOf.shifts.map((s) => {
                 return (
                   <div
                     className="card"
