@@ -5,9 +5,7 @@ import "./AddShiftPortal.css";
 // As soon as a non-empty `jobs` prop is passed in, these are ignored.
 const EXAMPLE_JOBS = [
   { id: 1, name: "DoorDash", is_hustle: true },
-  { id: 2, name: "Instacart", is_hustle: true },
-  { id: 3, name: "Uber", is_hustle: true },
-  { id: 4, name: "Event Staffing", is_hustle: true },
+
 ];
 
 const DAY = 24 * 60;
@@ -83,6 +81,7 @@ function formatDateLabel(iso) {
 /* ---------- small pieces ---------- */
 
 function CalendarIcon() {
+ 
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" strokeWidth="2" />
@@ -90,7 +89,6 @@ function CalendarIcon() {
     </svg>
   );
 }
-
 function MiniCalendar({ value, onSelect }) {
   const selected = parseISODate(value);
   const [view, setView] = useState(
@@ -99,6 +97,7 @@ function MiniCalendar({ value, onSelect }) {
 
   const todayISO = toISODate(new Date());
   const tomorrowISO = toISODate(addDays(new Date(), 1));
+  const multipleDays = toISODate(addDays(new Date(), 2));
 
   const year = view.getFullYear();
   const month = view.getMonth();
@@ -109,6 +108,8 @@ function MiniCalendar({ value, onSelect }) {
     ...Array(leadingBlanks).fill(null),
     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
   ];
+  
+  
 
   return (
     <div className="mini-cal" role="group" aria-label="Choose shift date">
@@ -177,11 +178,14 @@ function MiniCalendar({ value, onSelect }) {
       </div>
 
       <div className="mini-cal-foot">
-        <button type="button" className="shift-chip" onClick={() => onSelect(todayISO)}>
+        <button type="button" className="shift-chip" onClick={() => {onSelect(todayISO); }}>
           Today
         </button>
-        <button type="button" className="shift-chip" onClick={() => onSelect(tomorrowISO)}>
+        <button type="button" className="shift-chip" onClick={() => {onSelect(tomorrowISO); }}>
           Tomorrow
+        </button>
+        <button type="button" className="shift-chip" onClick={() => {setSelectedDates([]); setMultipleDays(true); }}>
+         Multiple Days
         </button>
       </div>
     </div>
@@ -203,6 +207,10 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
   const [jobId, setJobId] = useState(() =>
     hustleJobs.length === 1 ? String(hustleJobs[0].id) : ""
   );
+  const [multipleDays, setMultipleDays] = useState(false);
+  const [selectedDates, setSelectedDates] = useState([]);
+
+
   const [startMin, setStartMin] = useState(DEFAULT_START);
   // Length is the source of truth; end time is derived from it.
   // That way changing the start keeps the same shift length.
@@ -420,6 +428,7 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
                 onClick={() => setLength(len)}
               >
                 {formatLength(len)}
+                
               </button>
             ))}
           </div>

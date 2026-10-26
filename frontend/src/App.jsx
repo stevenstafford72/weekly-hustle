@@ -1,6 +1,7 @@
 import WeekBoard from "./WeekBoard";
 import { useState, useEffect } from "react";
 import { getJobs, getShifts, createShift, deleteShift } from "./api";
+import "./App.css";
 
 
 
@@ -85,12 +86,14 @@ function App() {
   }
 
   return (
-    <div style={{ padding: "16px", fontFamily: "sans-serif" }}>
-      <h1 style={{ marginRight: "700px", marginBottom: "25px" }}>Weekly Hustle</h1>
-      <div className="week-navigation" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-        <button onClick={weekStart}>←</button>
+    <div style={{display: "flex", flexDirection: "column", padding: "16px", fontFamily: "sans-serif" }}>
+      <h1 style={{ marginRight: "700px", marginBottom: "25px"}}>Weekly Hustle</h1>
+      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <div className="week-navigation" style={{ display: "flex", gap: "25px", alignItems: "center", marginBottom: "20px" }}>
+        <button className="week-navigation-button" onClick={weekStart}>←</button>
        <h2>{formatWeekRange(start, end)}</h2>
-        <button onClick={weekEnd}>→</button>
+        <button className="week-navigation-button" onClick={weekEnd}>→</button>
+      </div>
       </div>
       <WeekBoard weekOf={new Date(weekRange.start + "T00:00:00")} shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} onDeleteShift={handleDeleteShift} />
     </div>
