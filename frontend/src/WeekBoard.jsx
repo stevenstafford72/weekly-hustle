@@ -165,12 +165,14 @@ export default function WeekBoard({
                         : formatMinutes(s.planned_minutes)}
                     </div>
 
-                    <div className="card-pay">
+                  
+                    {/* Displays the pay amount for the shift */}
+                     {/* <div className="card-pay">
                       $
                       {Number(
                         s.pay_amount ?? s.pay ?? 0
                       ).toFixed(2)}
-                    </div>
+                    </div> */}
                   </div>
                 );
               })}
