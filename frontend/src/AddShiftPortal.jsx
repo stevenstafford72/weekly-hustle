@@ -89,15 +89,17 @@ function CalendarIcon() {
     </svg>
   );
 }
-function MiniCalendar({ value, onSelect }) {
+function MiniCalendar({ value, onSelect, multipleDays, selectedDates, onToggleDate, onMultiple }) {
   const selected = parseISODate(value);
   const [view, setView] = useState(
     () => new Date(selected.getFullYear(), selected.getMonth(), 1)
   );
 
+  const isPicked = (iso) => selectedDates.includes(iso);
   const todayISO = toISODate(new Date());
   const tomorrowISO = toISODate(addDays(new Date(), 1));
-  const multipleDays = toISODate(addDays(new Date(), 2));
+
+
 
   const year = view.getFullYear();
   const month = view.getMonth();
@@ -149,9 +151,10 @@ function MiniCalendar({ value, onSelect }) {
 
           const date = new Date(year, month, day);
           const iso = toISODate(date);
+          const picked = isPicked(iso);
           const classes = [
             "mini-cal-day",
-            iso === value && "is-selected",
+            (multipleDays ? picked : iso === value) && "is-selected",
             iso === todayISO && "is-today",
             iso < todayISO && "is-past",
           ]
@@ -163,8 +166,14 @@ function MiniCalendar({ value, onSelect }) {
               key={iso}
               type="button"
               className={classes}
-              onClick={() => onSelect(iso)}
-              aria-pressed={iso === value}
+              onClick={() => {
+                if (multipleDays) {
+                  onToggleDate(iso);
+                } else {
+                  onSelect(iso);
+                }
+              }}
+              aria-pressed={multipleDays ? picked :iso === value}
               aria-label={date.toLocaleDateString(undefined, {
                 weekday: "long",
                 month: "long",
@@ -178,13 +187,13 @@ function MiniCalendar({ value, onSelect }) {
       </div>
 
       <div className="mini-cal-foot">
-        <button type="button" className="shift-chip" onClick={() => {onSelect(todayISO); }}>
+        <button type="button" className="shift-chip" onClick={() => {onSelect(todayISO);}}>
           Today
         </button>
         <button type="button" className="shift-chip" onClick={() => {onSelect(tomorrowISO); }}>
           Tomorrow
         </button>
-        <button type="button" className="shift-chip" onClick={() => {setSelectedDates([]); setMultipleDays(true); }}>
+        <button type="button" className={`shift-chip${multipleDays ? " is-active" : ""}`} aria-pressed={multipleDays} onClick={onMultiple}>
          Multiple Days
         </button>
       </div>
@@ -207,9 +216,6 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
   const [jobId, setJobId] = useState(() =>
     hustleJobs.length === 1 ? String(hustleJobs[0].id) : ""
   );
-  const [multipleDays, setMultipleDays] = useState(false);
-  const [selectedDates, setSelectedDates] = useState([]);
-
 
   const [startMin, setStartMin] = useState(DEFAULT_START);
   // Length is the source of truth; end time is derived from it.
@@ -223,6 +229,16 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
   const dateFieldRef = useRef(null);
 
   const endMin = length ? startMin + length : null;
+
+  const [multipleDays, setMultipleDays] = useState(false);
+  const [selectedDates, setSelectedDates] = useState([]);
+  
+  function toggleDate(iso) {
+    setSelectedDates((prev) =>
+      prev.includes(iso) ? prev.filter((d) => d !== iso) : [...prev, iso]
+    );
+  }
+  
 
   // Escape closes the calendar first, then the modal.
   useEffect(() => {
@@ -264,9 +280,16 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
       return;
     }
 
+    const dates = multipleDays ? selectedDates : [shiftDate];
+    
+    if (dates.length === 0) {
+      setError("Pick at least one date for this shift.");
+      return;
+    }
+
     const payload = {
       job_id: Number(jobId),
-      shift_date: shiftDate,
+      shift_dates: dates,
       start_time: toHHMM(startMin),
       end_time: toHHMM(endMin),
       planned_minutes: length,
@@ -275,7 +298,9 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
 
     try {
       setSaving(true);
-      await onCreateShift(payload);
+      await Promise.all(
+        dates.map((d) => onCreateShift({ ...payload, shift_dates: [d] }))
+      );
       onClose();
     } catch (err) {
       setError(err.message || "Couldn't save the shift. Try again.");
@@ -311,10 +336,11 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
 
         <form className="shift-form" onSubmit={handleSubmit} noValidate>
           {/* Date */}
-          <div className="shift-field" ref={dateFieldRef}>
+          <div className="shift-field" ref={dateFieldRef }>
             <span className="shift-label" id="shift-date-label">
               Date
             </span>
+      
             <button
               type="button"
               className="shift-date-btn"
@@ -324,18 +350,26 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
             >
               <CalendarIcon />
               <span id="shift-date-value" className="shift-date-text">
-                {formatDateLabel(shiftDate)}
+              {multipleDays && selectedDates.length > 0
+                ? selectedDates.map((date) => formatDateLabel(date)).join(", ")
+                : formatDateLabel(shiftDate)}
               </span>
               <span className="shift-caret" aria-hidden="true">
                 ▾
               </span>
             </button>
+          
 
             {calendarOpen && (
               <MiniCalendar
                 value={shiftDate}
+                multipleDays={multipleDays}
+                selectedDates={selectedDates}
+                onToggleDate={toggleDate}
+                onMultiple={() => { setMultipleDays(true); setSelectedDates([]); }}
                 onSelect={(iso) => {
                   setShiftDate(iso);
+                  setMultipleDays(false);
                   setCalendarOpen(false);
                 }}
               />
@@ -432,7 +466,7 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
               </button>
             ))}
           </div>
-
+ 
           {error && (
             <div className="shift-form-error" role="alert">
               {error}
