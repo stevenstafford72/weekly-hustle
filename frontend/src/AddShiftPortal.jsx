@@ -289,7 +289,6 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
 
     const payload = {
       job_id: Number(jobId),
-      shift_dates: dates,
       start_time: toHHMM(startMin),
       end_time: toHHMM(endMin),
       planned_minutes: length,
@@ -299,7 +298,7 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
     try {
       setSaving(true);
       await Promise.all(
-        dates.map((d) => onCreateShift({ ...payload, shift_dates: [d] }))
+        dates.map((d) => onCreateShift({ ...payload, shift_date: d }))
       );
       onClose();
     } catch (err) {
@@ -351,15 +350,15 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
               <CalendarIcon />
               <span id="shift-date-value" className="shift-date-text">
               {multipleDays && selectedDates.length > 0
-                ? selectedDates.map((date) => formatDateLabel(date)).join(", ")
-                : formatDateLabel(shiftDate)}
+              ? selectedDates.map((date) => formatDateLabel(date)).join(", ")
+              : formatDateLabel(shiftDate)}
               </span>
               <span className="shift-caret" aria-hidden="true">
                 ▾
               </span>
             </button>
-          
 
+           
             {calendarOpen && (
               <MiniCalendar
                 value={shiftDate}
