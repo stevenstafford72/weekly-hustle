@@ -59,6 +59,13 @@ function formatTime(t) {
     : `${hour12}${suffix}`;
 }
 
+function formatMinutes(minutes) {
+  if (!minutes) return "";
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return `${hours}h ${mins}m`;
+}
+
 // Helper Function to get today's date as a string in the format YYYY-MM-DD
 function getToday() {
   return toDateString(new Date());

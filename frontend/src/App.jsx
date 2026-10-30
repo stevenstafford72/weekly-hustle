@@ -15,11 +15,16 @@ function toDateString(d) {
 
 function getWeekRange(date = new Date()) {
   const monday = new Date(date);
-  monday.setDate(monday.getDate() - monday.getDay() + 1);
+  if (monday.getDay() === 0) {
+    monday.setDate(monday.getDate() - 6);
+  } else {
+    monday.setDate(monday.getDate() - (monday.getDay() - 1));
+  }
   const sunday = new Date(monday);
   sunday.setDate(sunday.getDate() + 6);
-  return { start: toDateString(monday), end: toDateString(sunday) };
+  return { start: toDateString(monday), end: toDateString(sunday)};
 }
+
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
