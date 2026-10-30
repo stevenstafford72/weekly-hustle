@@ -24,15 +24,17 @@ export async function createShift(shift) {
 
 }
 
-    export async function getShifts() {
-    const response = await fetch(`${API_URL}/shifts?start=${arguments[0]}&end=${arguments[1]}`);
-
-    if (!response.ok) {
-        throw new Error(`Request failed: ${response.status}`)
+    export async function getShifts(start, end) {
+        if (!start || !end) {
+            throw new Error("Start and end dates are required");
+        }
+        const params = new URLSearchParams({ start, end });
+        const response = await fetch(`${API_URL}/weekly-shifts?${params.toString()}`); 
+        if (!response.ok) {
+            throw new Error(`Request failed: ${response.status}`)
+        }
+        return await response.json();
     }
-
-    return await response.json();
-}
 
     export async function deleteShift(id) {
         const response = await fetch(`${API_URL}/shifts/${id}`, {

@@ -161,7 +161,7 @@ export default function WeekBoard({
                     </button>
                     <div className="card-job">
                       <span className="dot" />
-                      {jobs.find((job) => job.id === s.job_id)?.name ?? "Unknown"}
+                      {s.job_name ?? "Unknown"}
                     </div>
 
                     <div className="card-time">

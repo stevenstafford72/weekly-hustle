@@ -2,6 +2,7 @@ from datetime import date, time
 import os
 from typing import Literal
 from fastapi.middleware.cors import CORSMiddleware
+from psycopg.rows import dict_row
 
 import psycopg
 from psycopg.rows import dict_row
@@ -25,8 +26,7 @@ app.add_middleware(
 
 
 def get_conn():
-    return psycopg.connect(DATABASE_URL, row_factory=dict_row)
-
+       return psycopg.connect(DATABASE_URL, row_factory=dict_row)
 
 class JobCreate(BaseModel):
     name: str
@@ -104,6 +104,7 @@ def create_shift(shift: ShiftCreate):
 @app.get("/weekly-shifts")
 def list_weekly_shifts(start: date, end: date):
     with get_conn() as conn:
+
         rows = conn.execute(
             """
             SELECT s.id,
