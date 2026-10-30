@@ -24,8 +24,8 @@ export async function createShift(shift) {
 
 }
 
-    export async function getShifts(start, end) {
-    const response = await fetch(`${API_URL}/shifts?start=${start}&end=${end}`);
+    export async function getShifts() {
+    const response = await fetch(`${API_URL}/shifts?start=${arguments[0]}&end=${arguments[1]}`);
 
     if (!response.ok) {
         throw new Error(`Request failed: ${response.status}`)
