@@ -92,6 +92,7 @@ function App() {
 
   return (
     <div style={{display: "flex", flexDirection: "column", padding: "16px", fontFamily: "sans-serif" }}>
+      
       <h1 style={{ marginRight: "700px", marginBottom: "25px"}}>Weekly Hustle</h1>
       <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
       <div className="week-navigation" style={{ display: "flex", gap: "25px", alignItems: "center", marginBottom: "20px" }}>
@@ -101,7 +102,9 @@ function App() {
       </div>
       </div>
       <WeekBoard weekOf={new Date(weekRange.start + "T00:00:00")} shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} onDeleteShift={handleDeleteShift} />
+
     </div>
+    
   );
 }
 

@@ -201,5 +201,8 @@
     border-right-color: var(--border);
   }
 
+.weekboard {
+  color: #f5f5f5;
 
+}
 }
