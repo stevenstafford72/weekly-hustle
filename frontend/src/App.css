@@ -1,3 +1,8 @@
+.week-navigation {
+  flex-direction: row;
+  justify-content: center;
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -19,18 +24,19 @@
 
 
  .week-navigation-button {
-  height: 30px;
-  border: 1px dashed var(--border-hover);
-  border-radius: 99px;
-  background: #4f7cf7;
+  height: 40px;
+  width: 40px;
+  border: 1px solid #2a2a2f;
+  border-radius: 50%;
+  padding: 8pxs;
+  background: #1A1A1F;
   color: #ffffff;
-  font: inherit;
-  font-size: 16px;
-  font-weight: 600;
   cursor: pointer;
 }
 .week-navigation-button:hover {
-  background: #3d68e0;
+  background: white;
+  transition: background 0.3s;
+  color: black;
 }
 
 .hero {

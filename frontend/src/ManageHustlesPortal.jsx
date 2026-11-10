@@ -1,28 +1,8 @@
 import { useEffect, useState } from "react";
 import "./AddShiftPortal.css"; // shared modal look: .shift-modal, .shift-input, .shift-chip, buttons
 import "./ManageHustlesPortal.css";
-import {
-  EMPTY_JOB,
-  JOB_COLORS,
-  JOB_TYPES,
-  PAY_TYPES,
-  describeJob,
-  nextFreeColor,
-} from "./hustleJobs";
 
-/*
-  One modal, two views:
-    list  -> tap a job to edit it, or "Add hustle"
-    form  -> add / edit / delete a single job
-  Swapping views inside the same modal avoids stacking pop-ups.
 
-  Props:
-    jobs          array of jobs
-    onCreateJob   async (data) => createdJob
-    onUpdateJob   async (id, data) => updatedJob
-    onDeleteJob   async (id) => void
-    onClose       () => void
-*/
 
 export default function ManageHustlesPortal({
   jobs = [],
@@ -31,6 +11,14 @@ export default function ManageHustlesPortal({
   onDeleteJob,
   onClose,
 }) {
+  
+const [hustleJobs, setHustleJobs] = useState([]);
+
+useEffect(() => {
+    getJobs().then(setHustleJobs);
+}, []);
+
+
   // null = list view, "new" = adding, a job id = editing that job
   const [editing, setEditing] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -184,7 +172,7 @@ function JobGroup({ title, jobs, onPick }) {
         {jobs.map((job) => (
           <li key={job.id}>
             <button type="button" className="hm-row" onClick={() => onPick(job.id)}>
-              <span className="hm-dot" style={{ "--dot": job.color }} aria-hidden="true" />
+              <span className="hm-dot" style={{ "--dot": job.color || "#8a8a8a" }} aria-hidden="true" />
               <span className="hm-row-text">
                 <span className="hm-row-name">{job.name}</span>
                 <span className="hm-row-meta">{describeJob(job)}</span>
@@ -225,7 +213,7 @@ function JobForm({ initial, isNew, busy, error, onSave, onDelete, onCancel }) {
   const [form, setForm] = useState(() => ({
     ...EMPTY_JOB,
     ...initial,
-    pay_rate: initial.pay_rate ?? "",
+    hourly_rate: initial.hourly_rate ?? "",
     notes: initial.notes ?? "",
   }));
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -249,10 +237,10 @@ function JobForm({ initial, isNew, busy, error, onSave, onDelete, onCancel }) {
     }
 
     let rate = null;
-    if (form.pay_rate !== "") {
-      rate = Number(form.pay_rate);
+    if (form.hourly_rate !== "") {
+      rate = Number(form.hourly_rate);
       if (!Number.isFinite(rate) || rate < 0) {
-        setLocalError("Enter a pay amount of 0 or more, or leave it blank.");
+        setLocalError("Enter an hourly rate of 0 or more, or leave it blank.");
         return;
       }
     }
@@ -262,7 +250,7 @@ function JobForm({ initial, isNew, busy, error, onSave, onDelete, onCancel }) {
       is_hustle: form.is_hustle,
       job_type: form.job_type,
       pay_type: form.pay_type,
-      pay_rate: rate,
+      hourly_rate: rate,
       gets_tips: form.pay_type === "salary" ? false : form.gets_tips,
       color: form.color,
       notes: form.notes.trim(),
@@ -367,8 +355,8 @@ function JobForm({ initial, isNew, busy, error, onSave, onDelete, onCancel }) {
               step="0.01"
               aria-label={`${pay.rateLabel} (optional)`}
               placeholder={pay.placeholder}
-              value={form.pay_rate}
-              onChange={(e) => set("pay_rate", e.target.value)}
+              value={form.hourly_rate}
+              onChange={(e) => set("hourly_rate", e.target.value)}
             />
             <span className="hm-money-affix" aria-hidden="true">
               {pay.suffix}

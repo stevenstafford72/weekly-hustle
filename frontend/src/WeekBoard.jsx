@@ -51,12 +51,12 @@ function formatTime(t) {
   if (!t) return "";
 
   const [h, m] = t.slice(0, 5).split(":").map(Number);
-  const suffix = h >= 12 ? "pm" : "am";
+  const suffix = h >= 12 ? " PM" : " AM";
   const hour12 = h % 12 || 12;
 
   return m
     ? `${hour12}:${String(m).padStart(2, "0")}${suffix}`
-    : `${hour12}${suffix}`;
+    : `${hour12}:${String("00")}${suffix}`;
 }
 
 function formatMinutes(minutes) {
@@ -147,6 +147,7 @@ export default function WeekBoard({
                   day: "numeric",
                 })}
               </div>
+              <div className="day-separator"></div>
             </div>
 
             <div className="cards">
@@ -158,21 +159,17 @@ export default function WeekBoard({
                   >
                     <button className="card-delete" onClick={() => onDeleteShift(s.id)}>
                       x
-                    </button>
+                    </button>  
+                    
+                    <div className="card-time">
+                      {s.start_time
+                        ? `${formatTime(s.start_time)}`
+                        : formatMinutes(s.planned_minutes)}
+                    </div>
                     <div className="card-job">
                       <span className="dot" />
                       {s.job_name ?? "Unknown"}
                     </div>
-
-                    <div className="card-time">
-                      {s.start_time && s.end_time
-                        ? `${formatTime(s.start_time)} – ${formatTime(
-                            s.end_time
-                          )}`
-                        : formatMinutes(s.planned_minutes)}
-                    </div>
-
-                  
                     {/* Displays the pay amount for the shift */}
                      {/* <div className="card-pay">
                       $

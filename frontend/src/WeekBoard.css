@@ -11,18 +11,25 @@
   background: black;
   padding: 5px 5px;
   margin: 0 0 10px;
-  border: 1px solid #eef0f4;
+  text-align: center;
   color: white;
+
 }
+
+.day-separator {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 2px;
+  border-top: 1px solid  #363941;
+}
+
 
 .column:first-child .day-header {
   border-radius: 10px 0 0 10px;
-  border-left: 1px solid #eef0f4;
 }
 
 .column:last-child .day-header {
   border-radius: 0 10px 10px 0;
-  border-right: 1px solid #eef0f4;
 }
 
 .column.today .day-header {
@@ -31,26 +38,29 @@
 
 /* Day labels */
 .day-name {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 250px;
 }
 
 .day-date {
-  font-size: 12px;
-  color: #6b7384;
+  font-size: 13px;
+  color: #7b8497;
   margin-top: 3px;
 }
 
 /* Shift cards */
 .cards {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   padding: 0 5px;
 }
 
 .card {
-  background: #ffffff;
+  background: #1e1e1e;
+  border: 1px solid #2a2a2f;
   border-radius: 12px;
   padding: 10px;
-  margin: 0 0 5px;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   position: relative;
 }
@@ -82,17 +92,22 @@
 }
 
 .card-job {
-  display: flex center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #1f2533;
+  position: relative;
+  display: flex;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  color: white;
 }
 
 .card-time {
+  position: relative;
+  display: flex;
   margin-top: 2px;
-  font-size: 12px;
-  color: #6b7384;
+  font-size: 16px;
+  color: #8ea2ff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
 }
 
 .card-pay {

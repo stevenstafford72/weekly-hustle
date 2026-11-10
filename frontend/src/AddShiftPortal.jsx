@@ -1,13 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./AddShiftPortal.css";
 
-// Placeholder jobs until the jobs endpoint is wired up.
-// As soon as a non-empty `jobs` prop is passed in, these are ignored.
-const EXAMPLE_JOBS = [
-  { id: 1, name: "DoorDash", is_hustle: true },
-
-];
-
 const DAY = 24 * 60;
 const STEP = 30; // minutes between time options
 const DEFAULT_START = 9 * 60; // 9:00 AM

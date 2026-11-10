@@ -1,6 +1,8 @@
 import WeekBoard from "./WeekBoard";
 import { useState, useEffect } from "react";
 import { getJobs, getShifts, createShift, deleteShift } from "./api";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+
 import "./App.css";
 
 
@@ -40,16 +42,16 @@ function formatWeekRange(start, end) {
   const [startYear, startMonth, startDay] = start.split("-").map(Number);
   const [endYear, endMonth, endDay] = end.split("-").map(Number);
 
-  const startText = `${MONTHS[startMonth - 1]} ${ordinal(startDay)}`;
+  const startText = `${MONTHS[startMonth - 1]} ${startDay}`;
   // Only repeat the month if the week crosses into a new one
   const endText = startMonth === endMonth
-    ? ordinal(endDay)
-    : `${MONTHS[endMonth - 1]} ${ordinal(endDay)}`;
+    ? endDay
+    : `${MONTHS[endMonth - 1]} ${endDay}`;
 
   if (startYear !== endYear) {
-    return `${startText} ${startYear} - ${endText} ${endYear}`;
+    return `${startText} ${startYear} - ${endText}, ${endYear}`;
   }
-  return `${startText} - ${endText} ${endYear}`;
+  return `${startText} - ${endText}, ${endYear}`;
 }
 
 
@@ -91,15 +93,14 @@ function App() {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column", padding: "16px", fontFamily: "sans-serif" }}>
-      
-      <h1 style={{ marginRight: "700px", marginBottom: "25px"}}>Weekly Hustle</h1>
-      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-      <div className="week-navigation" style={{ display: "flex", gap: "25px", alignItems: "center", marginBottom: "20px" }}>
-        <button className="week-navigation-button" onClick={weekStart}>←</button>
-       <h2>{formatWeekRange(start, end)}</h2>
-        <button className="week-navigation-button" onClick={weekEnd}>→</button>
-      </div>
+    <div style={{display: "flex", flexDirection: "column", padding: "16px", fontFamily: "sans-serif", margin: "25px 0"}}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "25px 0" }}>
+        <h1 style={{ margin: 0 }}>Weekly Hustle</h1>
+        <div className="week-navigation" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "5px" }}>
+          <button className="week-navigation-button" onClick={weekStart}><ArrowLeft /></button>
+          <h2 style={{ margin: 0, fontWeight: 300, fontFamily: "sans-serif" }}>{formatWeekRange(start, end)}</h2>
+          <button className="week-navigation-button" onClick={weekEnd}><ArrowRight /></button>
+        </div>
       </div>
       <WeekBoard weekOf={new Date(weekRange.start + "T00:00:00")} shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} onDeleteShift={handleDeleteShift} />
 
