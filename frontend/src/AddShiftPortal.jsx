@@ -200,7 +200,7 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
   const usingSampleJobs = jobs.length === 0;
 
   const hustleJobs = useMemo(
-    () => (usingSampleJobs ? EXAMPLE_JOBS : jobs),
+    () => (jobs),
     [jobs, usingSampleJobs]
   );
 
@@ -372,7 +372,6 @@ export default function AddShiftPortal({ jobs = [], onCreateShift, onClose }) {
           <div className="shift-field">
             <label htmlFor="shift-job" className="shift-label">
               Job
-              {usingSampleJobs && <em className="shift-sample-tag">sample data</em>}
             </label>
             <select
               id="shift-job"

@@ -91,6 +91,7 @@ function App() {
     const updated = await getShifts(start, end);
     setShifts(updated);
   }
+  console.log(jobs)
 
   return (
     <div style={{display: "flex", flexDirection: "column", padding: "16px", fontFamily: "sans-serif", margin: "25px 0"}}>

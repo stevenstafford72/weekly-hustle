@@ -1,4 +1,6 @@
 const API_URL =  import.meta.env.VITE_API_URL;
+console.log(API_URL)
+
 
 export async function  getJobs() {
     const response = await fetch(`${API_URL}/jobs`);
@@ -10,6 +12,7 @@ export async function  getJobs() {
     return await response.json();
 
 }
+
 
 export async function createShift(shift) {
     const response = await fetch(`${API_URL}/shifts`, {
