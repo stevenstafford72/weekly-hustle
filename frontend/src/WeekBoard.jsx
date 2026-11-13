@@ -139,7 +139,7 @@ export default function WeekBoard({
             key={weekOf.dateStr}
           >
             <div className="day-header">
-              <div className="day-name">{weekOf.name}</div>
+              <div className="day-name">{weekOf.dateStr === todayStr ? "Today": weekOf.name}</div>
 
               <div className="day-date">
                 {weekOf.date.toLocaleDateString("en-US", {
