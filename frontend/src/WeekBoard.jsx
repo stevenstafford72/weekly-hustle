@@ -131,6 +131,7 @@ export default function WeekBoard({
     
     <>
       <div className="board">
+
         {days.map((weekOf) => (
           <div
             className={`column ${
@@ -139,6 +140,7 @@ export default function WeekBoard({
             key={weekOf.dateStr}
           >
             <div className="day-header">
+              <div className="display-flex">
               <div className="day-name">{weekOf.dateStr === todayStr ? "Today": weekOf.name}</div>
 
               <div className="day-date">
@@ -146,6 +148,7 @@ export default function WeekBoard({
                   month: "short",
                   day: "numeric",
                 })}
+              </div>
               </div>
               <div className="day-separator"></div>
             </div>
@@ -182,9 +185,9 @@ export default function WeekBoard({
               })}
             </div>
 
-            
-          </div>
-        ))}
+            </div>
+        
+        ))}  
       </div>
         <HustleActions jobs={jobs} onCreateShift={onCreateShift} />
     </>

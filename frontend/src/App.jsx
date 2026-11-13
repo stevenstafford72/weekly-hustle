@@ -91,22 +91,30 @@ function App() {
     const updated = await getShifts(start, end);
     setShifts(updated);
   }
-  console.log(jobs)
 
-  return (
-    <div style={{display: "flex", flexDirection: "column", padding: "16px", fontFamily: "sans-serif", margin: "25px 0"}}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "25px 0" }}>
-        <h1 style={{ margin: 0 }}>Weekly Hustle</h1>
-        <div className="week-navigation" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "5px" }}>
+
+    return (
+    <div className="app">
+      <header className="app-header">
+        <div className="title-group">
+        <h1 className="app-title">Weekly Hustle</h1>
+        <h2 className="week-range-mobile">{formatWeekRange(start, end)}</h2>
+        </div>
+        <div className="week-navigation">
           <button className="week-navigation-button" onClick={weekStart}><ArrowLeft /></button>
-          <h2 style={{ margin: 0, fontWeight: 300, fontFamily: "sans-serif" }}>{formatWeekRange(start, end)}</h2>
+          <h2 className="week-range-desktop">{formatWeekRange(start, end)}</h2>
           <button className="week-navigation-button" onClick={weekEnd}><ArrowRight /></button>
         </div>
-      </div>
-      <WeekBoard weekOf={new Date(weekRange.start + "T00:00:00")} shifts={shifts} jobs={jobs} onCreateShift={handleCreateShift} onDeleteShift={handleDeleteShift} />
+      </header>
 
+      <WeekBoard
+        weekOf={new Date(weekRange.start + "T00:00:00")}
+        shifts={shifts}
+        jobs={jobs}
+        onCreateShift={handleCreateShift}
+        onDeleteShift={handleDeleteShift}
+      />
     </div>
-    
   );
 }
 

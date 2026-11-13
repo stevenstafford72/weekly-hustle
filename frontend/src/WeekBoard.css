@@ -8,6 +8,8 @@
 
 /* Connected day headers */
 .day-header {
+  display: flex;
+  flex-direction: column;
   background: black;
   padding: 5px 5px;
   margin: 0 0 10px;
@@ -335,10 +337,35 @@
 /* Mobile layout */
 @media (max-width: 600px) {
   .board {
-    grid-template-columns: repeat(7, minmax(100px, 1fr));
+    grid-template-columns: repeat(1, minmax(200px, 1fr));
     overflow-x: auto;
+    margin: 0;
   }
 
+  .day-separator {
+  margin-top: 2px;
+  border-top: 2px solid  #ffff;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.display-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  
+}
+
+.day-header {
+margin-bottom: 0;
+padding-bottom: 0;
+}
+
+.day-date{
+  font-size: 1.0rem;
+}
   .add-hustle-btn {
     right: 20px;
     bottom: 20px;
@@ -347,4 +374,40 @@
   .hustle-modal {
     padding: 20px;
   }
+
+  .cards {
+    gap: 0;
+    padding: 0 10%;
+  }
+
+  .card {
+    background: none;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #2a2a2f;
+    padding: 14px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  
+
+  .card-job {
+    order: 1;
+    flex: 1;
+    font-size: 16px;
+    
+  }
+
+  .card-time {
+    order: 2;
+    margin-top: 0;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #9aa3b5;
+  }
+  .column {
+    margin-bottom: 24px;
+  }
+
 }
