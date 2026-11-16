@@ -1,6 +1,18 @@
 const API_URL =  import.meta.env.VITE_API_URL;
-console.log(API_URL)
 
+
+
+export async function createJob(job) {
+ 
+    const response = await fetch(`${API_URL}/jobs`,  {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(job)
+    });
+    if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`)
+    }
+}
 
 export async function  getJobs() {
     const response = await fetch(`${API_URL}/jobs`);
@@ -8,11 +20,17 @@ export async function  getJobs() {
     if (!response.ok) {
         throw new Error(`Request failed: ${response.status}`)
     }
-
     return await response.json();
-
 }
 
+export async function deleteJob(id) {
+    const response = await fetch(`${API_URL}/jobs/${id}`, {
+        method: 'DELETE' });
+    if (!response.ok) {
+            throw new Error(`Request failed: ${response.status}`)
+        }
+        return await response.json();
+}
 
 export async function createShift(shift) {
     const response = await fetch(`${API_URL}/shifts`, {

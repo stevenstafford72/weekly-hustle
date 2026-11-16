@@ -89,7 +89,7 @@ export default function HustleFab({ onAddShift, onManageHustles }) {
       setOpen(true);
       return;
     }
-    run(onAddShift);
+
   }
 
   return (

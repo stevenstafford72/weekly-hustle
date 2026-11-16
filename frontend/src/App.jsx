@@ -1,6 +1,6 @@
 import WeekBoard from "./WeekBoard";
 import { useState, useEffect } from "react";
-import { getJobs, getShifts, createShift, deleteShift } from "./api";
+import { getJobs, getShifts, createShift, deleteShift, createJob, deleteJob } from "./api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import "./App.css";
@@ -54,7 +54,6 @@ function formatWeekRange(start, end) {
   return `${startText} - ${endText}, ${endYear}`;
 }
 
-
 function App() {
   const [shifts, setShifts] = useState([]);
   const [jobs, setJobs] = useState([]);
@@ -91,7 +90,16 @@ function App() {
     const updated = await getShifts(start, end);
     setShifts(updated);
   }
-
+  async function handleCreateJobs(job) {
+    await createJob(job);
+    const updated = await getJobs();
+    setJobs(updated);
+  }
+  async function handleDeleteJobs(id) {
+    await deleteJob(id);
+    const updated = await getJobs();
+    setJobs(updated);
+  }
 
     return (
     <div className="app">
@@ -113,7 +121,9 @@ function App() {
         jobs={jobs}
         onCreateShift={handleCreateShift}
         onDeleteShift={handleDeleteShift}
-      />
+        onCreateJob={handleCreateJobs}
+        onDeleteJob={handleDeleteJobs}
+/>
     </div>
   );
 }

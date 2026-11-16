@@ -2,6 +2,8 @@ from datetime import date, time
 import os
 from typing import Literal
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import HTTPException
+
 from psycopg.rows import dict_row
 
 import psycopg
@@ -89,6 +91,20 @@ def list_jobs():
         ).fetchall()
     return rows
 
+
+@app.delete("/jobs/{job_id}", status_code=200)
+def delete_job(job_id: int):
+    with get_conn() as conn:
+        row = conn.execute(
+            "DELETE FROM jobs WHERE id = %s RETURNING id",
+            (job_id,),
+        ).fetchone()
+        if row is None:
+            raise HTTPException(status_code=404, detail="Job not found")
+        return {"deleted": row["id"]}
+
+
+
 @app.post("/shifts", response_model=Shift, status_code=201)
 def create_shift(shift: ShiftCreate):
     with get_conn() as conn:
@@ -143,3 +159,6 @@ def delete_shift(shift_id: int):
             (shift_id,),   
         ).fetchone()
         return row
+
+
+

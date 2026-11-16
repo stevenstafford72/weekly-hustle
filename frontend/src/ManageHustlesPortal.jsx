@@ -11,11 +11,15 @@ export default function ManageHustlesPortal({
   onDeleteJob,
   onClose,
 }) {
+
+ function nextFreeColor(jobs) {
+  const used = new Set(jobs.map((j) => j.color));
+  return (JOB_COLORS.find((c) => !used.has(c.value)) ?? JOB_COLORS[0]).value;
+}
   
 const [hustleJobs, setHustleJobs] = useState([]);
 
 useEffect(() => {
-    getJobs().then(setHustleJobs);
 }, []);
 
 
@@ -76,6 +80,7 @@ useEffect(() => {
   function handleDelete() {
     if (!onDeleteJob) return setError("Job delete API is not connected.");
     runAction(() => onDeleteJob(editing), "Couldn't delete this hustle. Try again.");
+  
   }
 
   const inForm = editing !== null;
@@ -175,7 +180,6 @@ function JobGroup({ title, jobs, onPick }) {
               <span className="hm-dot" style={{ "--dot": job.color || "#8a8a8a" }} aria-hidden="true" />
               <span className="hm-row-text">
                 <span className="hm-row-name">{job.name}</span>
-                <span className="hm-row-meta">{describeJob(job)}</span>
               </span>
               <span className="hm-row-chevron" aria-hidden="true">
                 ›
@@ -431,7 +435,7 @@ function JobForm({ initial, isNew, busy, error, onSave, onDelete, onCancel }) {
           <button type="button" className="shift-cancel-btn" onClick={onCancel} disabled={busy}>
             Cancel
           </button>
-          <button type="submit" className="shift-save-btn" disabled={busy}>
+          <button type="submit" className="shift-save-btn" onClick={onSave} disabled={busy}>
             {busy ? "Saving..." : isNew ? "Add hustle" : "Save changes"}
           </button>
         </div>
@@ -439,3 +443,43 @@ function JobForm({ initial, isNew, busy, error, onSave, onDelete, onCancel }) {
     </form>
   );
 }
+export const JOB_TYPES = [
+  { value: "delivery", label: "Delivery" },
+  { value: "rideshare", label: "Rideshare" },
+  { value: "security", label: "Security" },
+  { value: "valet", label: "Valet" },
+  { value: "food_service", label: "Food service" },
+  { value: "retail", label: "Retail" },
+  { value: "tech", label: "Tech" },
+  { value: "other", label: "Other" },
+];
+
+export const PAY_TYPES = [
+  { value: "hourly", label: "Hourly", suffix: "/hr", rateLabel: "Hourly rate", placeholder: "18.00" },
+  { value: "per_gig", label: "Per gig", suffix: "/gig", rateLabel: "Average pay per gig", placeholder: "8.00" },
+  { value: "salary", label: "Salary", suffix: "/yr", rateLabel: "Yearly salary", placeholder: "55000" },
+];
+
+export const JOB_COLORS = [
+  { value: "#4f7cf7", name: "Blue" },
+  { value: "#22b07d", name: "Green" },
+  { value: "#f2a93b", name: "Amber" },
+  { value: "#e5484d", name: "Red" },
+  { value: "#a36bf5", name: "Purple" },
+  { value: "#2bb5c8", name: "Teal" },
+  { value: "#e76fb3", name: "Pink" },
+  { value: "#8a8f98", name: "Gray" },
+];
+
+// Shape every job follows (matches what the form sends to the API)
+export const EMPTY_JOB = {
+  name: "",
+  is_hustle: true, // false = main job (context for reports, hidden from Add shift)
+  job_type: "delivery",
+  pay_type: "hourly",
+  pay_rate: null,
+  gets_tips: false,
+  color: JOB_COLORS[0].value,
+  notes: "",
+};
+

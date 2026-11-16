@@ -2,7 +2,7 @@ import { useState } from "react";
 import HustleFab from "./HustleFab";
 import AddShiftPortal from "./AddShiftPortal";
 import ManageHustlesPortal from "./ManageHustlesPortal";
-import { EXAMPLE_JOBS } from "./hustleJobs";
+import { requestFormReset } from "react-dom";
 
 /*
   Drop <HustleActions /> where your old "+ Hustle" button was.
@@ -14,8 +14,9 @@ import { EXAMPLE_JOBS } from "./hustleJobs";
   runs on sample data in memory (resets on refresh).
 */
 
-export default function HustleActions({ jobs: realJobs = [], onCreateShift }) {
-  const [jobs, setJobs] = useState(EXAMPLE_JOBS); // TODO: load from GET /jobs
+
+export default function HustleActions({ jobs: realJobs = [], onCreateShift, onDeleteJob, onCreateJob}) {
+  const [jobs, setJobs] = useState(realJobs); // TODO: load from GET /jobs
   const [panel, setPanel] = useState(null); // "shift" | "hustles" | null
   
 
@@ -26,10 +27,7 @@ export default function HustleActions({ jobs: realJobs = [], onCreateShift }) {
   }
 
   async function createJob(data) {
-    // TODO: const job = await api.post("/jobs", data)
-    const job = { ...data, id: Date.now() };
-    setJobs((prev) => [...prev, job]);
-    return job;
+    return onCreateJob(data);
   }
 
   async function updateJob(id, data) {
@@ -39,9 +37,8 @@ export default function HustleActions({ jobs: realJobs = [], onCreateShift }) {
     return job;
   }
 
-  async function deleteJob(id) {
-    // TODO: await api.delete(`/jobs/${id}`)
-    setJobs((prev) => prev.filter((j) => j.id !== id));
+  async function deleteJob(data) {
+    return onDeleteJob(data); 
   }
 
 
@@ -58,7 +55,7 @@ export default function HustleActions({ jobs: realJobs = [], onCreateShift }) {
 
       {panel === "hustles" && (
         <ManageHustlesPortal
-          jobs={jobs}
+          jobs={realJobs}
           onCreateJob={createJob}
           onUpdateJob={updateJob}
           onDeleteJob={deleteJob}
