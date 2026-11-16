@@ -99,6 +99,12 @@ export default function WeekBoard({
           b.start_time ?? "99"
         )
       );
+      
+      ((a, b) =>
+        (a.end_time ?? "99").localeCompare(
+          b.end_time ?? "99"
+        )
+      );
 
     const totalMinutes = dayShifts.reduce(
       (sum, s) => sum + Number(s.planned_minutes || 0),
@@ -166,15 +172,19 @@ export default function WeekBoard({
                       x
                     </button>  
                     
-                    <div className="card-time">
-                      {s.start_time
-                        ? `${formatTime(s.start_time)}`
-                        : formatMinutes(s.planned_minutes)}
-                    </div>
-                    <div className="card-job">
-                      <span className="dot" />
-                      {s.job_name ?? "Unknown"}
-                    </div>
+                   <div className="card-top">
+                <div className="card-time">
+                  {s.start_time
+                    ? `${formatTime(s.start_time)} - ${formatTime(s.end_time)}`
+                    : "No time set"}
+                </div>
+                <div className="card-hours">{(s.planned_minutes /60)}h</div>
+              </div>
+
+              <div className="card-job">
+                <span className="dot" />
+                {s.job_name ?? "Unknown"}
+              </div>
                     {/* Displays the pay amount for the shift */}
                      {/* <div className="card-pay">
                       $
@@ -195,3 +205,5 @@ export default function WeekBoard({
     </>
   );
 }
+
+
