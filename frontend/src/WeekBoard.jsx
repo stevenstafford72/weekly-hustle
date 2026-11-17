@@ -1,6 +1,9 @@
 
 import "./WeekBoard.css";
 import HustleActions from "./HustleActions";
+import { useState } from "react";
+import { Circle, CircleAlertIcon, CircleCheckBigIcon, CircleCheckIcon } from "lucide-react";
+
 
 
 const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -73,6 +76,7 @@ function getToday() {
 
 
 
+
 // Helper Function to format a duration in minutes into a human-readable string (e.g., "2h 30m")
 export default function WeekBoard({
   shifts = [],
@@ -131,8 +135,10 @@ export default function WeekBoard({
 
 
 
+function ToggleButton() {
+  const [isChecked, SetChecked] = useState(false);
+}
 
-  
 
   return (
 
@@ -180,10 +186,11 @@ export default function WeekBoard({
                 </div>
                 <div className="card-hours">{(s.planned_minutes /60)}h</div>
               </div>
-
+             
               <div className="card-job">
                 <span className="dot" />
                 {s.job_name ?? "Unknown"}
+                 
               </div>
                     {/* Displays the pay amount for the shift */}
                      {/* <div className="card-pay">

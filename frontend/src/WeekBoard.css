@@ -12,12 +12,10 @@
 
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   column-gap: 0;
   align-items: start;
 }
-
-
 
 /* Connected day headers */
 .day-header {
@@ -35,6 +33,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 10px;
+  
 }
 
 .day-separator {
@@ -46,6 +45,7 @@
 
 .column:first-child .day-header {
   border-radius: 10px 0 0 10px;
+  
 }
 
 .column:last-child .day-header {
@@ -89,6 +89,7 @@
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
+  border-radius: 5px;
   padding: 10px;
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   position: relative;
@@ -141,10 +142,13 @@
 .card-job {
   position: relative;
   display: flex;
+  flex-direction: row;
+  white-space: nowrap;
   font-size: 18px;
   font-family: 'Inter', sans-serif;
   font-weight: 300;
   color: var(--text);
+
 }
 
 .card-time {
@@ -391,7 +395,7 @@
 
   .display-flex {
     display: flex;
-    flex-direction: row;
+    flex-direction: col;
     justify-content: space-between;
     padding-left: 20px;
     padding-right: 20px;
@@ -421,6 +425,8 @@
   }
 
   .card {
+    display: flex;
+    flex-direction: row-reverse;
     background: none;
     border: none;
     border-radius: 0;
@@ -428,6 +434,10 @@
     padding: 14px 0;
     display: flex;
     align-items: center;
+  }
+
+  .card-hours{
+    display: none;
   }
 
   .card-job {
