@@ -85,7 +85,8 @@ export default function WeekBoard({
   onCreateShift,
   onDeleteShift,
   onCreateJob,
-  onDeleteJob
+  onDeleteJob,
+  onUpdateJob
 }) {
   const monday = getMonday(weekOf);
   const todayStr = getToday();
@@ -204,7 +205,7 @@ export default function WeekBoard({
         
         ))}  
       </div>
-        <HustleActions jobs={jobs} onCreateShift={onCreateShift} onCreateJob={onCreateJob} onDeleteJob={onDeleteJob} />
+        <HustleActions jobs={jobs} onCreateShift={onCreateShift} onCreateJob={onCreateJob} onDeleteJob={onDeleteJob} onUpdateJob={onUpdateJob} />
     </>
   );
 }

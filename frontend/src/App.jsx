@@ -1,6 +1,6 @@
 import WeekBoard from "./WeekBoard";
 import { useState, useEffect } from "react";
-import { getJobs, getShifts, createShift, deleteShift, createJob, deleteJob } from "./api";
+import { getJobs, getShifts, createShift, deleteShift, createJob, deleteJob, updateJob } from "./api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import "./App.css";
@@ -95,6 +95,11 @@ function App() {
     const updated = await getJobs();
     setJobs(updated);
   }
+  async function handleUpdateJobs(id, job){
+    await updateJob(id, job);
+    const updated = await getJobs();
+    setJobs(updated);
+  }
   async function handleDeleteJobs(id) {
     await deleteJob(id);
     const updated = await getJobs();
@@ -123,6 +128,7 @@ function App() {
         onDeleteShift={handleDeleteShift}
         onCreateJob={handleCreateJobs}
         onDeleteJob={handleDeleteJobs}
+        onUpdateJob={handleUpdateJobs}
 />
     </div>
   );

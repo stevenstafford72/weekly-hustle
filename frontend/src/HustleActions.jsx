@@ -15,7 +15,7 @@ import { requestFormReset } from "react-dom";
 */
 
 
-export default function HustleActions({ jobs: realJobs = [], onCreateShift, onDeleteJob, onCreateJob}) {
+export default function HustleActions({ jobs: realJobs = [], onCreateShift, onDeleteJob, onCreateJob, onUpdateJob}) {
   const [jobs, setJobs] = useState(realJobs); // TODO: load from GET /jobs
   const [panel, setPanel] = useState(null); // "shift" | "hustles" | null
   
@@ -31,10 +31,8 @@ export default function HustleActions({ jobs: realJobs = [], onCreateShift, onDe
   }
 
   async function updateJob(id, data) {
-    // TODO: const job = await api.put(`/jobs/${id}`, data)
-    const job = { ...data, id };
-    setJobs((prev) => prev.map((j) => (j.id === id ? job : j)));
-    return job;
+    console.log(data)
+    return onUpdateJob(id,data);
   }
 
   async function deleteJob(data) {

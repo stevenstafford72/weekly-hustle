@@ -32,10 +32,14 @@ export async function deleteJob(id) {
         return await response.json();
 }
 
-export async function updateJob(id) {
+export async function updateJob(id, job) {
     const response = await fetch(`${API_URL}/jobs/${id}`, {
-        method: 'UPDATE' });
+        method: 'PUT',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(job)
+    });
     if (!response.ok) {
+        console.log(job)
             throw new Error(`Request failed: ${response.status}`)
         }
         return await response.json();

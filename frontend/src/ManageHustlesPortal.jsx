@@ -73,7 +73,7 @@ useEffect(() => {
 
     runAction(
       () => (isNew ? onCreateJob(data) : onUpdateJob(editing, data)),
-      "Couldn't save this hustle. Try again."
+      "Couldn't save this hustle. Try again.",
     );
   }
 
@@ -435,7 +435,7 @@ function JobForm({ initial, isNew, busy, error, onSave, onDelete, onCancel }) {
           <button type="button" className="shift-cancel-btn" onClick={onCancel} disabled={busy}>
             Cancel
           </button>
-          <button type="submit" className="shift-save-btn" onClick={onSave} disabled={busy}>
+          <button type="submit" className="shift-save-btn" disabled={busy}>
             {busy ? "Saving..." : isNew ? "Add hustle" : "Save changes"}
           </button>
         </div>
