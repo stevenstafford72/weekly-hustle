@@ -36,6 +36,7 @@ class JobCreate(BaseModel):
     is_hustle: bool = True
     pay_type: Literal["salary", "hourly", "per_gig"]
     hourly_rate: Decimal | None = Field(default=None, ge=0)
+    
 
 class Job(JobCreate):
     id: int

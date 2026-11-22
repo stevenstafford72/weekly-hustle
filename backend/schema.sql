@@ -18,6 +18,7 @@ CREATE TABLE shifts (
     actual_minutes INT CHECK (actual_minutes >= 0),
     pay_amount DECIMAL(10,2) CHECK (pay_amount >= 0),
     tips DECIMAL(10,2) NOT NULL DEFAULT 0 CHECK (tips >= 0),
+    job_id INTEGER REFERENCES jobs(id) ON DELETE CASCADE
     status TEXT NOT NULL DEFAULT 'planned' CHECK (status IN ('planned', 'completed', 'cancelled')),
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     CHECK ((start_time IS NULL) = (end_time IS NULL))
