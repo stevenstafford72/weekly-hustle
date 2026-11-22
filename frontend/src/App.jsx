@@ -104,6 +104,8 @@ function App() {
     await deleteJob(id);
     const updated = await getJobs();
     setJobs(updated);
+    const updatedShifts = await getShifts(start, end);
+    setShifts(updatedShifts);
   }
 
     return (
