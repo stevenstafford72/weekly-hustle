@@ -55,6 +55,9 @@ class ShiftCreate(BaseModel):
 class Shift(ShiftCreate):
     id: int
 
+
+
+
 @app.get("/")
 def root():
     return {"message": "Weekly Hustle is alive"}
@@ -78,9 +81,23 @@ def create_job(job: JobCreate):
             """,
             (job.name, job.is_hustle, job.pay_type, job.hourly_rate),
         ).fetchone()
-
     return row
 
+@app.put("/jobs/{job_id}", response_model=Job, status_code=200)
+def update_job(job_id: int, job: JobCreate):
+    with get_conn() as conn:
+        row = conn.execute(
+            """
+            UPDATE jobs
+            Set name = %s, is_hustle = %s, pay_type = %s, hourly_rate = %s
+            WHERE id = %s
+            RETURNING id, name, is_hustle, pay_type, hourly_rate
+            """,
+            (job.name, job.is_hustle, job.pay_type, job.hourly_rate, job_id),
+        ).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return row
 
 
 @app.get("/jobs", response_model=list[Job])

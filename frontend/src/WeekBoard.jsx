@@ -133,11 +133,7 @@ export default function WeekBoard({
     };
   });
 
-
-
-function ToggleButton() {
-  const [isChecked, SetChecked] = useState(false);
-}
+  const [isChecked, setChecked] = useState(false);
 
 
   return (
@@ -190,8 +186,8 @@ function ToggleButton() {
               <div className="card-job">
                 <span className="dot" />
                 {s.job_name ?? "Unknown"}
-                 
               </div>
+              
                     {/* Displays the pay amount for the shift */}
                      {/* <div className="card-pay">
                       $

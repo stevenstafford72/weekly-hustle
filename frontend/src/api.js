@@ -32,6 +32,15 @@ export async function deleteJob(id) {
         return await response.json();
 }
 
+export async function updateJob(id) {
+    const response = await fetch(`${API_URL}/jobs/${id}`, {
+        method: 'UPDATE' });
+    if (!response.ok) {
+            throw new Error(`Request failed: ${response.status}`)
+        }
+        return await response.json();
+}
+
 export async function createShift(shift) {
     const response = await fetch(`${API_URL}/shifts`, {
         method: 'POST',
